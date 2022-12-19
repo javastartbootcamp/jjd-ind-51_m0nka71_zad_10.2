@@ -1,54 +1,41 @@
 package pl.javastart.task;
 
-public class Phone implements PhoneUtils {
-    private double balanceCounter;
-    private int smsCounter;
-    private int mmsCounter;
-    private int secondsCounter;
+public class Phone {
     private PhoneContract phoneContract;
 
     public Phone(PhoneContract phoneContract) {
         this.phoneContract = phoneContract;
     }
 
-    @Override
     public void sendSms() {
-        if (phoneContract.getBalance() >= phoneContract.getSmsPrice()) {
-            System.out.println("SMS wysłany\n");
-            balanceCounter = phoneContract.getBalance() - phoneContract.getSmsPrice();
-            smsCounter++;
+        boolean success = phoneContract.sendSms();
+        if (success) {
+            System.out.println("SMS wysłany");
         } else {
-            System.out.println("Nie udało się wysłać SMSa\n");
+            System.out.println("Nie udało się wysłać SMSa");
         }
     }
 
-    @Override
     public void call(int seconds) {
-        if (phoneContract.getBalance() >= ((seconds / 60) * phoneContract.getOneMinuteCallPrice())) {
-            System.out.println("Rozmowa trwała: " + seconds + " sekund \n");
-            secondsCounter = seconds;
+        boolean success = phoneContract.call();
+        if (success) {
+            phoneContract.secondsCounter += seconds;
+            System.out.println("Rozmowa trwała: " + seconds + " sekund");
         } else {
-            System.out.println("Rozmowa przerwana, brak środków\n");
+            System.out.println("Rozmowa przerwana, brak środków");
         }
     }
 
-    @Override
     public void sendMms() {
-        if (phoneContract.getBalance() >= phoneContract.getMmsPrice()) {
-            System.out.println("MMS wysłany\n");
-            mmsCounter++;
+        boolean success = phoneContract.sendMms();
+        if (success) {
+            System.out.println("MMS wysłany");
         } else {
-            System.out.println("Nie udało się wysłać MMSa\n");
+            System.out.println("Nie udało się wysłać MMSa");
         }
     }
 
-    @Override
     public void printAccountState() {
-        System.out.println("=== STAN KONTA ===");
-        System.out.println("Wysłanych SMSów: " + smsCounter);
-        System.out.println("Wysłanych MMSów: " + mmsCounter);
-        System.out.println("Liczba sekund rozmowy: " + secondsCounter);
-        System.out.println("Na koncie zostało: " + phoneContract.getBalance() + " zł");
-        System.out.print("\n\n");
+        phoneContract.printStatus();
     }
 }

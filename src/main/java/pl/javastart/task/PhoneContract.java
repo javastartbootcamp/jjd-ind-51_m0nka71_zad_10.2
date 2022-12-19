@@ -1,24 +1,18 @@
 package pl.javastart.task;
 
 public abstract class PhoneContract {
-    private double balance;
-    private double smsPrice;
-    private double mmsPrice;
+    protected double smsPrice;
+    protected double mmsPrice;
+    protected double callPrice;
+    protected int smsCounter;
+    protected int mmsCounter;
+    protected int secondsCounter;
     private double oneMinuteCallPrice;
 
-    public PhoneContract(double balance, double smsPrice, double mmsPrice, double oneMinuteCallPrice) {
-        this.balance = balance;
+    public PhoneContract(double smsPrice, double mmsPrice, double callPrice) {
         this.smsPrice = smsPrice;
         this.mmsPrice = mmsPrice;
-        this.oneMinuteCallPrice = oneMinuteCallPrice;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
+        this.callPrice = callPrice;
     }
 
     public double getSmsPrice() {
@@ -44,5 +38,14 @@ public abstract class PhoneContract {
     public void setOneMinuteCallPrice(double oneMinuteCallPrice) {
         this.oneMinuteCallPrice = oneMinuteCallPrice;
     }
+
+    public abstract boolean sendSms();
+
+    public abstract boolean call();
+
+    public abstract boolean sendMms();
+
+    public abstract void printStatus();
+
 }
 
